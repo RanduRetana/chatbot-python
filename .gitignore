@@ -1,25 +1,28 @@
- __pycache__/
+# Archivos y carpetas relacionados con Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyi
 
-# C extensions
-
-*.so
-
-# Distribution / packaging
-
-.Python
-
-env/
-
-build/
-
+# Entorno virtual
 venvChatbot/
 
-develop-eggs/
+# Archivos y carpetas relacionados con IDEs y editores de texto
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-dist/
+# Archivos de registro y otros archivos temporales
+*.log
+*.tmp
 
-downloads/
+# Archivos y carpetas del sistema operativo
+.DS_Store
+Thumbs.db
 
-eggs/
-
-.eggs/
+# Credenciales y configuraciones sensibles
+.env
+config.json
+*.pem
