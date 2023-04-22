@@ -55,7 +55,10 @@ class Chatbox {
 
     fetch(window.chatbot.serverUrl + '/predict', {
       method: 'POST',
-      body: JSON.stringify({ message: text1 }),
+      body: JSON.stringify({
+        message: text1,
+        user_id: window.chatbot.userId,
+      }),
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',

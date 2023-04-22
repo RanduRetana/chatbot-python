@@ -56,7 +56,8 @@
       window.chatbot.serverUrl = chatbotUrl;
 
       // Agrega esta línea para pasar el ID del usuario al objeto chatbot
-      window.chatbot.userId = user_id;
+      window.chatbot.userId =
+        typeof chatbotUserId !== 'undefined' ? chatbotUserId : null;
     });
   }
 

@@ -28,7 +28,7 @@ bot_name = "botberto"
 awaiting_name_email = False
 
 
-def get_response(sentence):
+def get_response(sentence, user_id):
     global awaiting_name_email
     response = ""
 
@@ -36,7 +36,7 @@ def get_response(sentence):
         try:
             # Asume que el usuario proporciona los datos separados por comas
             name, email = sentence.split(",")
-            save_user_data(name.strip(), email.strip())
+            save_user_data(user_id, name.strip(), email.strip())  # Incluye el user_id aquí
             response = f"{bot_name}: Datos guardados exitosamente."
             awaiting_name_email = False
         except ValueError:
