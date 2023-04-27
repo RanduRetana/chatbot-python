@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="chatbox__button">
-              <button><img src="images/chatbox-icon.svg" /></button>
+              <button><img src="/static/images/chatbox-icon.svg" /></button>
             </div>
           </div>
         </div>`;
@@ -46,7 +46,7 @@
   }
 
   function initializeChatbot() {
-    var chatbotUrl = 'http://localhost:5000/'; // Reemplaza esto con la URL de tu servidor Flask.
+    var chatbotUrl = 'https://convierto.uc.r.appspot.com'; // Reemplaza esto con la URL de tu servidor Flask.
 
     injectChatbotHTML();
     loadStylesheet(chatbotUrl + '/static/styles.css');
