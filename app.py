@@ -33,8 +33,10 @@ def predict():
     text = data.get("message")
     user_id = data.get("user_id")
     bot_name = data.get("bot_name")
-    response = get_response(text, user_id, bot_name)
+    empresa_name = data.get("empresa_name")  # Agregue esta línea
+    response = get_response(text, user_id, bot_name, empresa_name)
     return jsonify({"response": response})
+
 
 
 @app.route('/chatbot_loader.js')

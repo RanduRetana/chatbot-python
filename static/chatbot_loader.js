@@ -56,6 +56,11 @@
     window.chatbotUserId =
       typeof chatbotUserId !== 'undefined' ? chatbotUserId : null;
 
+    // window.chatbot.empresaName =
+    //   typeof window.empresaName !== 'undefined'
+    //     ? window.empresaName
+    //     : null;
+
     loadScript(chatbotUrl + '/static/app.js', function () {
       // Asegúrate de que app.js esté configurado para trabajar con la URL de tu servidor Flask.
       window.chatbot.serverUrl = chatbotUrl;

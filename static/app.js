@@ -3,6 +3,7 @@ window.chatbot = {
     window.chatbot.serverUrl = window.chatbot.serverUrl || '';
     window.chatbot.botName = window.chatbotName || 'Botberto';
     window.chatbot.userId = window.chatbotUserId || '1';
+    window.chatbot.empresaName = window.empresaName || 'Fiori';
   },
 };
 
@@ -61,6 +62,7 @@ class Chatbox {
         message: text1,
         user_id: window.chatbot.userId,
         bot_name: window.chatbot.botName,
+        empresa_name: window.chatbot.empresaName,
       }),
       mode: 'cors',
       headers: {
@@ -119,4 +121,5 @@ document.addEventListener('DOMContentLoaded', triggerSendButton);
 
 const chatbox = new Chatbox();
 chatbox.display();
+window.chatbot.empresaName = window.chatbot.empresaName || 'Empresa';
 window.chatbot.init();

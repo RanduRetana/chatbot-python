@@ -29,28 +29,34 @@ model.eval()
 
 awaiting_name_email = False
 
-def get_response(sentence, user_id, bot_name):
+chat_state = {}  # Cambiar a un diccionario
+
+def get_response(sentence, user_id, bot_name, empresa_name):
     global chat_state, user_data
 
-    if chat_state == "initial":
-        response = f"Hola soy {bot_name} asesor virtual, ¿cómo puedo ayudarte?"
-        chat_state = "awaiting_assistance"
-    elif chat_state == "awaiting_assistance":
+    if user_id not in chat_state:
+        chat_state[user_id] = "initial"
+
+    if chat_state[user_id] == "initial":
+        response = f"Hola soy {bot_name} asesor virtual de {empresa_name}, ¿cómo puedo ayudarte?"
+        chat_state[user_id] = "awaiting_assistance"
+    elif chat_state[user_id] == "awaiting_assistance":
         # Código para manejar la respuesta del usuario
         response = "Te voy a asignar un asesor, dame tu nombre por favor."
-        chat_state = "awaiting_name"
-    elif chat_state == "awaiting_name":
+        chat_state[user_id] = "awaiting_name"
+    elif chat_state[user_id] == "awaiting_name":
         user_data["name"] = sentence
         response = "Ahora dame tu correo o WhatsApp."
-        chat_state = "awaiting_contact"
-    elif chat_state == "awaiting_contact":
+        chat_state[user_id] = "awaiting_contact"
+    elif chat_state[user_id] == "awaiting_contact":
         user_data["contact"] = sentence
         # Guardar nombre y contacto en la base de datos
         save_user_data(user_id, user_data["name"], user_data["contact"])
         response = "Excelente! Te pondré en contacto con un asesor, si necesitas algo más solo dime."
-        chat_state = "initial"
+        chat_state[user_id] = "initial"
     else:
         response = "No entiendo..."
 
     return response
+
 
