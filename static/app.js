@@ -1,6 +1,8 @@
 window.chatbot = {
   init: function () {
     window.chatbot.serverUrl = window.chatbot.serverUrl || '';
+    window.chatbot.botName = window.chatbotName || 'Botberto';
+    window.chatbot.userId = window.chatbotUserId || '1';
   },
 };
 
@@ -58,6 +60,7 @@ class Chatbox {
       body: JSON.stringify({
         message: text1,
         user_id: window.chatbot.userId,
+        bot_name: window.chatbot.botName,
       }),
       mode: 'cors',
       headers: {
@@ -66,7 +69,10 @@ class Chatbox {
     })
       .then((r) => r.json())
       .then((r) => {
-        let msg2 = { name: 'Botberto', message: r.response };
+        let msg2 = {
+          name: window.chatbot.botName,
+          message: r.response,
+        };
         this.messages.push(msg2);
         this.updateChatText(chatbox);
         textField.value = '';
@@ -80,11 +86,12 @@ class Chatbox {
 
   updateChatText(chatbox) {
     var html = '';
+    const botName = window.chatbot.botName;
     this.messages
       .slice()
       .reverse()
       .forEach(function (item) {
-        if (item.name === 'Botberto') {
+        if (item.name === botName) {
           html +=
             '<div class="messages__item messages__item--visitor">' +
             item.message +
@@ -101,6 +108,14 @@ class Chatbox {
     chatmessage.innerHTML = html;
   }
 }
+
+function triggerSendButton() {
+  const event = new Event('click');
+  const sendButton = document.querySelector('.send__button');
+  sendButton.dispatchEvent(event);
+}
+
+document.addEventListener('DOMContentLoaded', triggerSendButton);
 
 const chatbox = new Chatbox();
 chatbox.display();

@@ -7,17 +7,17 @@ def create_conn():
         host="localhost",
         user="root",
         passwd="",
-        database="chatbot"
+        database="hunterprice"
     )
     return conn
 
 
-def save_user_data(idUser, nombre, Email):
+def save_user_data(user_id, meta_key, meta_value):
     conn = create_conn()
     cursor = conn.cursor()
 
-    query = "INSERT INTO postschatbot (idUser, nombre, Email) VALUES (%s, %s, %s)"
-    values = (idUser, nombre, Email)
+    query = "INSERT INTO ewsjujoc_usermeta (user_id, meta_key, meta_value) VALUES (%s, %s, %s)"
+    values = (user_id, meta_key, meta_value)
 
     cursor.execute(query, values)
     conn.commit()

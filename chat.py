@@ -19,52 +19,38 @@ output_size = data["output_size"]
 all_words = data['all_words']
 tags = data['tags']
 model_state = data["model_state"]
+chat_state = "initial"
+user_data = {}
+
 
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-bot_name = "botberto"
 awaiting_name_email = False
 
+def get_response(sentence, user_id, bot_name):
+    global chat_state, user_data
 
-def get_response(sentence, user_id):
-    global awaiting_name_email
-    response = ""
-
-    if awaiting_name_email:
-        try:
-            # Asume que el usuario proporciona los datos separados por comas
-            name, email = sentence.split(",")
-            save_user_data(user_id, name.strip(), email.strip())  # Incluye el user_id aquí
-            response = f"{bot_name}: Datos guardados exitosamente."
-            awaiting_name_email = False
-        except ValueError:
-            response = f"{bot_name}: Por favor, proporciona tu nombre y correo electrónico separados por una coma."
-        finally:
-            awaiting_name_email = False
+    if chat_state == "initial":
+        response = f"Hola soy {bot_name} asesor virtual, ¿cómo puedo ayudarte?"
+        chat_state = "awaiting_assistance"
+    elif chat_state == "awaiting_assistance":
+        # Código para manejar la respuesta del usuario
+        response = "Te voy a asignar un asesor, dame tu nombre por favor."
+        chat_state = "awaiting_name"
+    elif chat_state == "awaiting_name":
+        user_data["name"] = sentence
+        response = "Ahora dame tu correo o WhatsApp."
+        chat_state = "awaiting_contact"
+    elif chat_state == "awaiting_contact":
+        user_data["contact"] = sentence
+        # Guardar nombre y contacto en la base de datos
+        save_user_data(user_id, user_data["name"], user_data["contact"])
+        response = "Excelente! Te pondré en contacto con un asesor, si necesitas algo más solo dime."
+        chat_state = "initial"
     else:
-        sentence = tokenize(sentence)
-        X = bag_of_words(sentence, all_words)
-        X = X.reshape(1, X.shape[0])
-        X = torch.from_numpy(X).to(device)
-        output = model(X)
-        _, predicted = torch.max(output, dim=1)
-
-        tag = tags[predicted.item()]
-
-        probs = torch.softmax(output, dim=1)
-        prob = probs[0][predicted.item()]
-
-        if prob.item() > 0.75:
-            if tag == "save_data":
-                awaiting_name_email = True
-                response = f"{bot_name}: Por favor, dame tu nombre y correo electrónico."
-            else:
-                for intent in intents['intents']:
-                    if tag == intent["tag"]:
-                        response = f"{bot_name}: {random.choice(intent['responses'])}"
-        else:
-            response = f"{bot_name}: No entiendo..."
+        response = "No entiendo..."
 
     return response
+

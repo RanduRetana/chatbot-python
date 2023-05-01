@@ -17,7 +17,7 @@ def generate_unique_id():
 def register_chatbot_user():
     user_data = request.get_json()
     user_id = generate_unique_id()
-    # Guarda el ID único y los demás datos del usuario en la base de datos
+        # Guarda el ID único y los demás datos del usuario en la base de datos
     # ...
     return jsonify({"user_id": user_id})
 
@@ -32,7 +32,8 @@ def predict():
     data = request.get_json()
     text = data.get("message")
     user_id = data.get("user_id")
-    response = get_response(text, user_id)
+    bot_name = data.get("bot_name")
+    response = get_response(text, user_id, bot_name)
     return jsonify({"response": response})
 
 
