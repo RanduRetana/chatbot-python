@@ -1,26 +1,46 @@
 import mysql.connector as mysql
 
-
 # create connection to database
 def create_conn():
     conn = mysql.connect(
-        host="localhost",
-        user="root",
-        passwd="",
-        database="hunterprice"
+        host="35.211.5.248",
+        port=3306,
+        user="bn_wordpress",
+        passwd="1f08ac4d9fcfe0c933590de03863d16d26587f7607bba3ba4c7ed1b32d4530a6",
+        database="bitnami_wordpress"
     )
     return conn
 
+def save_user_data(session_id, name, contact):
+    user_id, _ = session_id.split("_")
+    apellido = "Apellido predeterminado"
+    correo = contact
+    titulo = "Título predeterminado"
 
-def save_user_data(user_id, meta_key, meta_value):
     conn = create_conn()
     cursor = conn.cursor()
 
-    query = "INSERT INTO ewsjujoc_usermeta (user_id, meta_key, meta_value) VALUES (%s, %s, %s)"
-    values = (user_id, meta_key, meta_value)
-
-    cursor.execute(query, values)
+    query_posts = """
+    INSERT INTO wp_posts (post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, post_type, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered)
+    VALUES (%s, NOW(), NOW(), %s, %s, '', 'publish', 'prospectos', '', '', NOW(), NOW(), '')
+    """
+    values_posts = (user_id, "prueba", titulo)
+    cursor.execute(query_posts, values_posts)
     conn.commit()
 
+    post_id = cursor.lastrowid
+
+    query_postmeta = "INSERT INTO wp_postmeta (post_id, meta_key, meta_value) VALUES (%s, %s, %s)"
+
+    values_nombre = (post_id, "nombre", name)
+    cursor.execute(query_postmeta, values_nombre)
+
+    values_apellido = (post_id, "apellido", apellido)
+    cursor.execute(query_postmeta, values_apellido)
+
+    values_correo = (post_id, "correo", correo)
+    cursor.execute(query_postmeta, values_correo)
+
+    conn.commit()
     cursor.close()
     conn.close()

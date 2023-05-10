@@ -16,10 +16,13 @@ def generate_unique_id():
 @app.route('/register_chatbot_user', methods=['POST'])
 def register_chatbot_user():
     user_data = request.get_json()
-    user_id = generate_unique_id()
-        # Guarda el ID único y los demás datos del usuario en la base de datos
+    user_id = user_data.get("user_id")
+    unique_id = generate_unique_id()
+    combined_id = f"{user_id}_{unique_id}"
+    # Guarda el ID combinado y los demás datos del usuario en la base de datos
     # ...
-    return jsonify({"user_id": user_id})
+    return jsonify({"user_id": combined_id})
+
 
 
 @app.get('/')
