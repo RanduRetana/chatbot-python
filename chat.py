@@ -1,7 +1,7 @@
 import random
 import json
 import torch
-from database import save_user_data
+from database import save_user_data, get_user_url
 
 
 chat_state = "initial"
@@ -12,14 +12,16 @@ awaiting_name_email = False
 
 chat_state = {}  # Cambiar a un diccionario
 
+
 def get_response(sentence, session_id, bot_name, empresa_name):
     global chat_state, user_data
-
+    userId = session_id.split("_")[0]
+    user_url = get_user_url(userId)
     if session_id not in chat_state:
         chat_state[session_id] = "initial"
 
     if chat_state[session_id] == "initial":
-        response = f"Hola soy {bot_name} asesor virtual de {empresa_name}, ¿cómo puedo ayudarte?"
+        response = f"Hola soy {bot_name} asesor virtual de {user_url}, ¿cómo puedo ayudarte?"
         chat_state[session_id] = "awaiting_assistance"
     elif chat_state[session_id] == "awaiting_assistance":
         # Código para manejar la respuesta del usuario

@@ -44,3 +44,21 @@ def save_user_data(session_id, name, contact):
     conn.commit()
     cursor.close()
     conn.close()
+
+
+#the following function returns the user_url using the id given
+def get_user_url(id):
+    conn = create_conn()
+    cursor = conn.cursor()
+
+    query = """ select meta_value from wp_usermeta where user_id = %s and meta_key = "billing_company" """
+    values = (id,)
+
+    cursor.execute(query, values)
+    user_url = cursor.fetchone()[0]
+
+    cursor.close()
+    conn.close()
+
+    return user_url
+
