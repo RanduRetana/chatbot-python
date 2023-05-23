@@ -38,6 +38,12 @@ class Chatbox {
 
   toggleState(chatBox) {
     this.state = !this.state;
+    //tagmanager
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'chatbot_interaction',
+      chatbot_state: this.state ? 'open' : 'close',
+    });
 
     if (this.state) {
       chatBox.classList.add('chatbox--active');
