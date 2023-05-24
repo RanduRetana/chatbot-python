@@ -29,6 +29,32 @@ class Chatbox {
     const { chatBox } = this.args;
     this.state = true;
     chatBox.classList.add('chatbox--active');
+
+    fetch(window.chatbot.serverUrl + '/welcome_message', {
+      method: 'POST',
+      body: JSON.stringify({
+        user_id: window.chatbot.userId,
+        saludo: window.chatbot.saludo,
+        despedida: window.chatbot.despedida,
+      }),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        let msg = {
+          name: window.chatbot.botName,
+          message: r.response,
+        };
+        this.messages.push(msg);
+        this.updateChatText(chatBox);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        this.updateChatText(chatBox);
+      });
   }
 
   display() {

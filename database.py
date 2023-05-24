@@ -12,7 +12,7 @@ def create_conn():
     return conn
 
 def save_user_data(session_id, name, contact):
-    user_id, _ = session_id.split("_")
+    # user_id, _ = session_id.split("_")
     apellido = "Apellido predeterminado"
     correo = contact
     titulo = "Título predeterminado"
@@ -24,7 +24,7 @@ def save_user_data(session_id, name, contact):
     INSERT INTO wp_posts (post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, post_type, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered)
     VALUES (%s, NOW(), NOW(), %s, %s, '', 'publish', 'prospectos', '', '', NOW(), NOW(), '')
     """
-    values_posts = (user_id, "prueba", titulo)
+    values_posts = (session_id, "prueba", titulo)
     cursor.execute(query_posts, values_posts)
     conn.commit()
 
@@ -56,10 +56,11 @@ def get_user_url(id):
 
     cursor.execute(query, values)
     result = cursor.fetchone()
-    user_url = cursor.fetchone()[0] if result is not None else "tu empresa favorita"
+    user_url = result[0] if result is not None else "tu empresa favorita"
 
     cursor.close()
     conn.close()
 
     return user_url
+
 

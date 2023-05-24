@@ -34,13 +34,21 @@ def index_get():
 def predict():
     data = request.get_json()
     text = data.get("message")
-    user_id = data.get("user_id")
+    user_id = data.get("user_id") 
+    usuario = user_id.split("_")[0]
     bot_name = data.get("bot_name")
     saludo = data.get("saludo")
     despedida = data.get("despedida")
-    response = get_response(text, user_id, bot_name, saludo, despedida)
+    response = get_response(text, user_id, bot_name, saludo, despedida, False, usuario)
     return jsonify({"response": response})
 
+@app.route('/welcome_message', methods=['POST'])
+def welcome_message():
+    user_data = request.get_json()
+    user_id = user_data.get("user_id")
+    saludo = user_data.get("saludo")
+    response = get_response(None, user_id, None, saludo, None, True, None)
+    return jsonify({"response": response})
 
 
 @app.route('/chatbot_loader.js')
