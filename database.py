@@ -55,7 +55,8 @@ def get_user_url(id):
     values = (id,)
 
     cursor.execute(query, values)
-    user_url = cursor.fetchone()[0]
+    result = cursor.fetchone()
+    user_url = cursor.fetchone()[0] if result is not None else "tu empresa favorita"
 
     cursor.close()
     conn.close()

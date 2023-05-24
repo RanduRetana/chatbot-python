@@ -18,7 +18,7 @@
           <div class="chatbox__support">
             <div class="chatbox__header">
               <div class="chatbox__image--header">
-                <img src="https://cdn.livechatinc.com/cms/icons/customer-service-icon.png" alt="image">
+                <img src="https://convierto.uc.r.appspot.com/static/images/logo.svg" alt="image">
               </div>
               <div class="chatbox__content--header">
                 <h4 class="chatbox__heading--header">Tu amigo ${botName}</h4>
