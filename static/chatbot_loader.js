@@ -75,6 +75,9 @@
     loadScript(chatbotUrl + '/static/app.js', function () {
       // Asegúrate de que app.js esté configurado para trabajar con la URL de tu servidor Flask.
       window.chatbot.serverUrl = chatbotUrl;
+      setTimeout(function () {
+        chatbox.open();
+      }, 10000);
     });
   }
 

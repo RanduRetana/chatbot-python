@@ -25,6 +25,12 @@ class Chatbox {
     this.messages = [];
   }
 
+  open() {
+    const { chatBox } = this.args;
+    this.state = true;
+    chatBox.classList.add('chatbox--active');
+  }
+
   display() {
     const { openButton, chatBox, sendButton } = this.args;
 
