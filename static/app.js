@@ -4,6 +4,12 @@ window.chatbot = {
     window.chatbot.botName = window.chatbotName || 'Botberto';
     window.chatbot.userId = window.chatbotUserId || '1';
     window.chatbot.empresaName = window.empresaName || 'Fiori';
+    window.chatbot.saludo =
+      window.saludo ||
+      'Hola soy {bot_name} asesor virtual de {user_url}, ¿cómo puedo ayudarte?';
+    window.chatbot.despedida =
+      window.despedida ||
+      'Gracias! pronto nos pondremos en contacto contigo';
   },
 };
 
@@ -69,6 +75,8 @@ class Chatbox {
         user_id: window.chatbot.userId,
         bot_name: window.chatbot.botName,
         empresa_name: window.chatbot.empresaName,
+        saludo: window.chatbot.saludo,
+        despedida: window.chatbot.despedida,
       }),
       mode: 'cors',
       headers: {

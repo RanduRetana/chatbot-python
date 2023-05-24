@@ -13,15 +13,16 @@ awaiting_name_email = False
 chat_state = {}  # Cambiar a un diccionario
 
 
-def get_response(sentence, session_id, bot_name, empresa_name):
+def get_response(sentence, session_id, bot_name, saludo, despedida):
     global chat_state, user_data
+
     userId = session_id.split("_")[0]
     user_url = get_user_url(userId)
     if session_id not in chat_state:
         chat_state[session_id] = "initial"
 
     if chat_state[session_id] == "initial":
-        response = f"Hola soy {bot_name} asesor virtual de {user_url}, ¿cómo puedo ayudarte?"
+        response = saludo
         chat_state[session_id] = "awaiting_assistance"
     elif chat_state[session_id] == "awaiting_assistance":
         # Código para manejar la respuesta del usuario
@@ -35,7 +36,7 @@ def get_response(sentence, session_id, bot_name, empresa_name):
         user_data["contact"] = sentence
         # Guardar nombre y contacto en la base de datos
         save_user_data(session_id, user_data["name"], user_data["contact"])
-        response = "Excelente! Te pondré en contacto con un asesor, si necesitas algo más solo dime."
+        response = despedida
         chat_state[session_id] = "initial"
     else:
         response = "No entiendo..."
