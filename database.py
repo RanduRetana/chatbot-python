@@ -6,7 +6,7 @@ def create_conn():
         host="35.211.5.248",
         port=3306,
         user="bn_wordpress",
-        passwd="1f08ac4d9fcfe0c933590de03863d16d26587f7607bba3ba4c7ed1b32d4530a6",
+        passwd="36721bad982d385527779574aa80a9cdb2f27fb31f03d851f38b028bec837570",
         database="bitnami_wordpress"
     )
     return conn
