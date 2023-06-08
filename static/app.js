@@ -23,12 +23,18 @@ class Chatbox {
 
     this.state = false;
     this.messages = [];
+    this.userMessageCount = 0; // Contador de mensajes del usuario
   }
 
   open() {
     const { chatBox } = this.args;
     this.state = true;
     chatBox.classList.add('chatbox--active');
+
+    // Enviar evento a GA4
+    gtag('event', 'chat_opened', {
+      event_category: 'chatbot_interaction',
+    });
 
     fetch(window.chatbot.serverUrl + '/welcome_message', {
       method: 'POST',
@@ -76,11 +82,9 @@ class Chatbox {
 
   toggleState(chatBox) {
     this.state = !this.state;
-    //tagmanager
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'chatbot_interaction',
-      chatbot_state: this.state ? 'open' : 'close',
+    // Enviar evento a GA4
+    gtag('event', this.state ? 'chat_opened' : 'widget_closed', {
+      event_category: 'chatbot_interaction',
     });
 
     if (this.state) {
@@ -97,8 +101,21 @@ class Chatbox {
       return;
     }
 
+    // Enviar evento a GA4
+    gtag('event', 'visitor_sent_message', {
+      event_category: 'chatbot_interaction',
+    });
+
     let msg1 = { name: 'User', message: text1 };
     this.messages.push(msg1);
+
+    this.userMessageCount += 1;
+
+    if (this.userMessageCount >= 3) {
+      gtag('event', 'convierto_chatlead', {
+        event_category: 'chatbot_interaction',
+      });
+    }
 
     fetch(window.chatbot.serverUrl + '/predict', {
       method: 'POST',
